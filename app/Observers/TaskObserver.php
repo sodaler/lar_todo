@@ -2,11 +2,20 @@
 
 namespace App\Observers;
 
+use App\Jobs\TelegramMessageJob;
 use App\Models\Task;
+use App\Service\Telegram\TelegramService;
 use Illuminate\Support\Facades\Log;
 
 class TaskObserver
 {
+    private TelegramService $telegramService;
+
+    public function __construct(TelegramService $telegramService)
+    {
+        $this->telegramService = $telegramService;
+    }
+
     /**
      * Handle the Task "created" event.
      */
@@ -15,6 +24,9 @@ class TaskObserver
         Log::info('Created new Task: ' . $task->id . '. ' . $task->title);
 
         flash()->info('Task created: ' . $task->title);
+
+        $message = 'Task: ' . $task->title . ' created';
+        TelegramMessageJob::dispatch($this->telegramService, $message);
     }
 
     /**
@@ -35,5 +47,8 @@ class TaskObserver
         Log::info('Deleted Task: ' . $task->id . '. ' . $task->title);
 
         flash()->alert('Task deleted: ' . $task->title);
+
+        $message = 'Task: ' . $task->title . ' deleted';
+        TelegramMessageJob::dispatch($this->telegramService, $message);
     }
 }
