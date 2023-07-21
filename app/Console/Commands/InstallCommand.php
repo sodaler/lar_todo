@@ -23,7 +23,7 @@ class InstallCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $this->call('migrate');
         $this->call('queue:listen');

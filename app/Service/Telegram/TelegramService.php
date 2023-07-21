@@ -11,7 +11,7 @@ class TelegramService
         $this->telegramHandler = $telegramHandler;
     }
 
-    public function sendNotification($message)
+    public function sendNotification($message): void
     {
         $this->telegramHandler->write($message);
     }
