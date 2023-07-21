@@ -74,6 +74,8 @@
             </div>
         </nav>
 
+        @include('shared.flash')
+
         <main class="py-4">
             @yield('content')
         </main>
