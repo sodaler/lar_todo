@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::permanentRedirect('/', 'tasks');
 
-Route::middleware(['auth'])->prefix('tasks')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('tasks')->group(function () {
     Route::get('/', [TaskController::class, 'index'])->name('task.index');
     Route::get('/create', [TaskController::class, 'create'])->name('task.create');
     Route::post('/', [TaskController::class, 'store'])->name('task.store');
@@ -26,4 +26,4 @@ Route::middleware(['auth'])->prefix('tasks')->group(function () {
     Route::delete('/{task}', [TaskController::class, 'destroy'])->name('task.delete');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
