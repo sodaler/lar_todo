@@ -6,6 +6,8 @@ use App\Actions\TaskAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\Task\StoreRequest;
+use App\Http\Requests\Task\UpdateRequest;
+use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -45,34 +47,29 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified task.
      */
-    public function show(string $id)
+    public function edit(Task $task): View
     {
-        //
+        return view('tasks.edit', compact('task'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified task in storage.
      */
-    public function edit(string $id)
+    public function update(UpdateRequest $request, Task $task): RedirectResponse|Redirector
     {
-        //
+        $data = $request->validated();
+        $task->update($data);
+        return redirect()->route('task.index');
     }
 
     /**
-     * Update the specified resource in storage.
+     * Remove the specified task from storage.
      */
-    public function update(Request $request, string $id)
+    public function destroy(Task $task): RedirectResponse|Redirector
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $task->delete();
+        return redirect()->route('task.index');
     }
 }
