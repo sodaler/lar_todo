@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use DomainException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -25,6 +27,13 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (DomainException $ex) {
+            flash()->alert('Domain exception');
+            Log::error($ex->getMessage());
+
+            return redirect()->route('task.index');
         });
     }
 }
