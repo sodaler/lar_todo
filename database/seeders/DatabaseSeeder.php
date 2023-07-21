@@ -15,12 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\User::factory()->create([
+         $user = User::factory()->create([
              'name' => 'Test User',
              'email' => 'test@example.com',
              'password' => 'example123',
          ]);
 
-        TaskFactory::new()->count(10)->create();
+        TaskFactory::new()->count(10)->create([
+            'user_id' => $user->id
+        ]);
     }
 }
