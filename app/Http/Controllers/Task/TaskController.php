@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Task;
 
+use App\Actions\TaskAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SearchRequest;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -11,9 +13,10 @@ class TaskController extends Controller
     /**
      * Display a listing of the task.
      */
-    public function index(): View
+    public function index(SearchRequest $request, TaskAction $action): View
     {
-        $tasks = auth()->user()->tasks();
+        $tasks = $action->getSearchAuth($request->search)
+            ->paginate(6);
 
         return view('tasks.index', compact('tasks'));
     }
