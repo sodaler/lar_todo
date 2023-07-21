@@ -11,7 +11,7 @@
                     </form>
                 </div>
                 <div class="mb-3">
-                    <a href="#" class="btn btn-primary" type="button" id="addTask">
+                    <a href="{{ route('task.create') }}" class="btn btn-primary" type="button" id="addTask">
                         Create
                     </a>
                 </div>

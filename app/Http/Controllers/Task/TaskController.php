@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Task;
 use App\Actions\TaskAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SearchRequest;
+use App\Http\Requests\Task\StoreRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\View\View;
 
 class TaskController extends Controller
@@ -22,19 +25,23 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new task.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('tasks.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created task in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request): RedirectResponse|Redirector
     {
-        //
+        $data = $request->validated();
+        $user = auth()->user();
+        $user->tasks()->create($data);
+
+        return redirect()->route('task.index');
     }
 
     /**
